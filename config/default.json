@@ -1,0 +1,22 @@
+{
+  "server": {
+    "port": 3000,
+    "env": "development"
+  },
+  "mongodb": {
+    "uri": "mongodb://localhost:27017/school-mis",
+    "options": {
+      "useNewUrlParser": true,
+      "useUnifiedTopology": true
+    }
+  },
+  "jwt": {
+    "secret": "your-super-secret-jwt-key-change-in-production",
+    "expiresIn": "24h"
+  },
+  "swagger": {
+    "host": "localhost:3000",
+    "basePath": "/api/v1"
+  }
+}
+

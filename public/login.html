@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MIS - Login</title>
+  <link rel="stylesheet" href="MIS.css" />  
+</head>
+<body>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+      <h1>MIS Login</h1>
+      <p class="subtitle">Management Information System</p>
+
+      <div id="error-message" class="error hidden"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter username" required autocomplete="username" />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign In</button>
+      </form>
+
+      <p class="footer-text">© 2026 MIS - All rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const errorDiv = document.getElementById('error-message');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      errorDiv.classList.add('hidden');
+      errorDiv.textContent = '';
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (!username || !password) {
+        errorDiv.textContent = 'Please fill in both fields';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+          credentials: 'include'   // ← CRITICAL: allows session cookies to be sent/received
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+          console.log('Login successful — redirecting...');
+          window.location.href = '/dashboard.html';
+        } else {
+          errorDiv.textContent = data.message || 'Login failed. Please try again.';
+          errorDiv.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error('Login fetch error:', err);   // ← shows real error in console (F12)
+        errorDiv.textContent = 'Connection error: ' + err.message + '. Check console (F12) for details.';
+        errorDiv.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
