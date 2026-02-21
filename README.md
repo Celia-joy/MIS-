@@ -51,11 +51,11 @@ npm run dev
 npm start
 ```
 
-The server will start on `http://localhost:3000`
+The server will start on `http://localhost:{PORT}`
 
 ## API Documentation
 
-Swagger UI is available at: `http://localhost:3000/api-docs`
+Swagger UI is available at: `http://localhost:{PORT}/api-docs`
 
 ## API Endpoints
 
